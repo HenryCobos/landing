@@ -154,7 +154,7 @@
   </section>
 
   <!-- ─── SERVICES ─── -->
-  <section class="relative z-10 max-w-5xl mx-auto px-6 pb-20">
+  <section data-ttq="services" class="relative z-10 max-w-5xl mx-auto px-6 pb-20">
     <div class="text-center mb-12">
       <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">¿Qué podemos construir juntos?</h2>
       <p class="text-slate-400 max-w-xl mx-auto">Dos soluciones especializadas, un solo desarrollador responsable de principio a fin.</p>
@@ -236,7 +236,7 @@
   </section>
 
   <!-- ─── PORTFOLIO ─── -->
-  <section class="relative z-10 max-w-5xl mx-auto px-6 pb-24">
+  <section data-ttq="portfolio" class="relative z-10 max-w-5xl mx-auto px-6 pb-24">
     <div class="text-center mb-12">
       <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-4 py-1.5 mb-5">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -965,12 +965,40 @@
     const btnArrow = document.getElementById('btn-arrow');
     const btnSpinner = document.getElementById('btn-spinner');
 
+    // ─── TikTok Pixel: vertical funnel events ───
+    // ViewContent: fires once when the services or portfolio section enters view
+    const ttqViewFired = { services: false, portfolio: false, form: false };
+    const contentObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const id = entry.target.dataset.ttq;
+        if (id && !ttqViewFired[id]) {
+          ttqViewFired[id] = true;
+          ttq.track('ViewContent', { content_name: id });
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('[data-ttq]').forEach(el => contentObserver.observe(el));
+
+    // ClickButton: fires when any CTA anchor pointing to #form is clicked
+    document.querySelectorAll('a[href="#form"]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        ttq.track('ClickButton', { content_name: 'cta_apply' });
+      });
+    });
+
     // Hide mobile CTA when form is in view
     const mobileCta = document.getElementById('mobile-cta');
     const formSection = document.getElementById('form');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         mobileCta.style.transform = entry.isIntersecting ? 'translateY(100%)' : 'translateY(0)';
+        // ViewContent for form section
+        if (entry.isIntersecting && !ttqViewFired.form) {
+          ttqViewFired.form = true;
+          ttq.track('ViewContent', { content_name: 'form_section' });
+        }
       });
     }, { threshold: 0.1 });
     observer.observe(formSection);
