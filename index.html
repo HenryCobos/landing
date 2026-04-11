@@ -974,17 +974,17 @@
         const id = entry.target.dataset.ttq;
         if (id && !ttqViewFired[id]) {
           ttqViewFired[id] = true;
-          ttq.track('ViewContent', { content_name: id });
+          ttq.track('ViewContent', { content_id: id, content_name: id, content_type: 'product' });
         }
       });
     }, { threshold: 0.3 });
 
     document.querySelectorAll('[data-ttq]').forEach(el => contentObserver.observe(el));
 
-    // ClickButton: fires when any CTA anchor pointing to #form is clicked
+    // Contact: fires when any CTA anchor pointing to #form is clicked (standard lead-gen funnel event)
     document.querySelectorAll('a[href="#form"]').forEach(btn => {
       btn.addEventListener('click', () => {
-        ttq.track('ClickButton', { content_name: 'cta_apply' });
+        ttq.track('Contact', { content_id: 'aplicacion_proyecto', content_name: 'cta_apply', content_type: 'product' });
       });
     });
 
@@ -994,10 +994,10 @@
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         mobileCta.style.transform = entry.isIntersecting ? 'translateY(100%)' : 'translateY(0)';
-        // ViewContent for form section
+        // Contact: user reached the form section — middle of the lead-gen funnel
         if (entry.isIntersecting && !ttqViewFired.form) {
           ttqViewFired.form = true;
-          ttq.track('ViewContent', { content_name: 'form_section' });
+          ttq.track('Contact', { content_id: 'aplicacion_proyecto', content_name: 'form_section', content_type: 'product' });
         }
       });
     }, { threshold: 0.1 });
@@ -1023,8 +1023,8 @@
           form.classList.add('hidden');
           successMsg.classList.remove('hidden');
           successMsg.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          ttq.track('SubmitForm');
-          ttq.track('CompleteRegistration');
+          ttq.track('SubmitForm', { content_id: 'aplicacion_proyecto', content_name: 'aplicacion_proyecto', content_type: 'product' });
+          ttq.track('CompleteRegistration', { content_id: 'aplicacion_proyecto', content_name: 'aplicacion_proyecto', content_type: 'product' });
         } else {
           throw new Error('Error en el envío');
         }
