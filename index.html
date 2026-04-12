@@ -84,13 +84,13 @@
     .delay-3 { animation-delay: 0.4s; opacity: 0; }
     .delay-4 { animation-delay: 0.55s; opacity: 0; }
   </style>
-  <!-- Google Ads Tag — reemplaza AW-XXXXXXXXXX con tu ID de cuenta -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-XXXXXXXXXX"></script>
+  <!-- Google Ads Tag -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-5131704433"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'AW-XXXXXXXXXX');
+    gtag('config', 'AW-5131704433');
   </script>
 
   <!-- TikTok Pixel -->
@@ -1053,8 +1053,8 @@
           successMsg.scrollIntoView({ behavior: 'smooth', block: 'start' });
           ttq.track('SubmitForm', { content_id: 'aplicacion_proyecto', content_name: 'aplicacion_proyecto', content_type: 'product' });
           ttq.track('CompleteRegistration', { content_id: 'aplicacion_proyecto', content_name: 'aplicacion_proyecto', content_type: 'product' });
-          // Google Ads — reemplaza AW-XXXXXXXXXX/YYYYYYYYYYYY con tu Conversion ID/Label
-          gtag('event', 'conversion', { 'send_to': 'AW-XXXXXXXXXX/YYYYYYYYYYYY' });
+          // Google Ads — reemplaza YYYYYYYYYYYY con tu Conversion Label
+          gtag('event', 'conversion', { 'send_to': 'AW-5131704433/YYYYYYYYYYYY' });
         } else {
           throw new Error('Error en el envío');
         }
