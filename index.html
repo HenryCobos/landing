@@ -1002,7 +1002,7 @@
         const id = entry.target.dataset.ttq;
         if (id && !ttqViewFired[id]) {
           ttqViewFired[id] = true;
-          ttq.track('ViewContent', { content_id: id, content_name: id, content_type: 'product' });
+          ttq.track('ViewContent', { content_id: [id], content_name: id, content_type: 'product' });
         }
       });
     }, { threshold: 0.3 });
@@ -1012,7 +1012,8 @@
     // Contact: fires when any CTA anchor pointing to #form is clicked (standard lead-gen funnel event)
     document.querySelectorAll('a[href="#form"]').forEach(btn => {
       btn.addEventListener('click', () => {
-        ttq.track('Contact', { content_id: 'aplicacion_proyecto', content_name: 'cta_apply', content_type: 'product' });
+        ttq.track('ClickButton', { content_id: ['aplicacion_proyecto'], content_name: 'cta_apply', content_type: 'product' });
+        ttq.track('Contact', { content_id: ['aplicacion_proyecto'], content_name: 'cta_apply', content_type: 'product' });
       });
     });
 
@@ -1025,7 +1026,7 @@
         // Contact: user reached the form section — middle of the lead-gen funnel
         if (entry.isIntersecting && !ttqViewFired.form) {
           ttqViewFired.form = true;
-          ttq.track('Contact', { content_id: 'aplicacion_proyecto', content_name: 'form_section', content_type: 'product' });
+          ttq.track('Contact', { content_id: ['aplicacion_proyecto'], content_name: 'form_section', content_type: 'product' });
         }
       });
     }, { threshold: 0.1 });
@@ -1051,8 +1052,8 @@
           form.classList.add('hidden');
           successMsg.classList.remove('hidden');
           successMsg.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          ttq.track('SubmitForm', { content_id: 'aplicacion_proyecto', content_name: 'aplicacion_proyecto', content_type: 'product' });
-          ttq.track('CompleteRegistration', { content_id: 'aplicacion_proyecto', content_name: 'aplicacion_proyecto', content_type: 'product' });
+          ttq.track('SubmitForm', { content_id: ['aplicacion_proyecto'], content_name: 'aplicacion_proyecto', content_type: 'product' });
+          ttq.track('CompleteRegistration', { content_id: ['aplicacion_proyecto'], content_name: 'aplicacion_proyecto', content_type: 'product' });
           gtag('event', 'conversion', { 'send_to': 'AW-840889278/1LWJCP-k9pocEL7n-5AD', 'value': 1.0, 'currency': 'PEN' });
         } else {
           throw new Error('Error en el envío');
