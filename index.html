@@ -994,6 +994,14 @@
     });
 
     // ─── TikTok Pixel: vertical funnel events ───
+    // ViewContent: top of funnel — fires immediately on page load
+    ttq.track('ViewContent', {
+      content_id: 'landing_mundo_apper',
+      content_name: 'Apps a Medida · Mundo Apper',
+      content_type: 'product',
+      contents: [{ content_id: 'landing_mundo_apper', content_type: 'product', quantity: 1 }]
+    });
+
     // ViewContent: fires once when the services or portfolio section enters view
     const ttqViewFired = { services: false, portfolio: false, form: false };
     const contentObserver = new IntersectionObserver((entries) => {
@@ -1002,18 +1010,33 @@
         const id = entry.target.dataset.ttq;
         if (id && !ttqViewFired[id]) {
           ttqViewFired[id] = true;
-          ttq.track('ViewContent', { content_id: [id], content_name: id, content_type: 'product' });
+          ttq.track('ViewContent', {
+            content_id: id,
+            content_name: id,
+            content_type: 'product',
+            contents: [{ content_id: id, content_type: 'product', quantity: 1 }]
+          });
         }
       });
     }, { threshold: 0.3 });
 
     document.querySelectorAll('[data-ttq]').forEach(el => contentObserver.observe(el));
 
-    // Contact: fires when any CTA anchor pointing to #form is clicked (standard lead-gen funnel event)
+    // ClickButton + Contact: fires when any CTA anchor pointing to #form is clicked
     document.querySelectorAll('a[href="#form"]').forEach(btn => {
       btn.addEventListener('click', () => {
-        ttq.track('ClickButton', { content_id: ['aplicacion_proyecto'], content_name: 'cta_apply', content_type: 'product' });
-        ttq.track('Contact', { content_id: ['aplicacion_proyecto'], content_name: 'cta_apply', content_type: 'product' });
+        ttq.track('ClickButton', {
+          content_id: 'aplicacion_proyecto',
+          content_name: 'cta_apply',
+          content_type: 'product',
+          contents: [{ content_id: 'aplicacion_proyecto', content_type: 'product', quantity: 1 }]
+        });
+        ttq.track('Contact', {
+          content_id: 'aplicacion_proyecto',
+          content_name: 'cta_apply',
+          content_type: 'product',
+          contents: [{ content_id: 'aplicacion_proyecto', content_type: 'product', quantity: 1 }]
+        });
       });
     });
 
@@ -1026,7 +1049,12 @@
         // Contact: user reached the form section — middle of the lead-gen funnel
         if (entry.isIntersecting && !ttqViewFired.form) {
           ttqViewFired.form = true;
-          ttq.track('Contact', { content_id: ['aplicacion_proyecto'], content_name: 'form_section', content_type: 'product' });
+          ttq.track('Contact', {
+            content_id: 'aplicacion_proyecto',
+            content_name: 'form_section',
+            content_type: 'product',
+            contents: [{ content_id: 'aplicacion_proyecto', content_type: 'product', quantity: 1 }]
+          });
         }
       });
     }, { threshold: 0.1 });
@@ -1052,8 +1080,18 @@
           form.classList.add('hidden');
           successMsg.classList.remove('hidden');
           successMsg.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          ttq.track('SubmitForm', { content_id: ['aplicacion_proyecto'], content_name: 'aplicacion_proyecto', content_type: 'product' });
-          ttq.track('CompleteRegistration', { content_id: ['aplicacion_proyecto'], content_name: 'aplicacion_proyecto', content_type: 'product' });
+          ttq.track('SubmitForm', {
+            content_id: 'aplicacion_proyecto',
+            content_name: 'aplicacion_proyecto',
+            content_type: 'product',
+            contents: [{ content_id: 'aplicacion_proyecto', content_type: 'product', quantity: 1 }]
+          });
+          ttq.track('CompleteRegistration', {
+            content_id: 'aplicacion_proyecto',
+            content_name: 'aplicacion_proyecto',
+            content_type: 'product',
+            contents: [{ content_id: 'aplicacion_proyecto', content_type: 'product', quantity: 1 }]
+          });
           gtag('event', 'conversion', { 'send_to': 'AW-840889278/1LWJCP-k9pocEL7n-5AD', 'value': 1.0, 'currency': 'PEN' });
         } else {
           throw new Error('Error en el envío');
